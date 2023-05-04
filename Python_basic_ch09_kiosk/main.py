@@ -10,6 +10,8 @@
 # - 화면 -> Console창
 # - 사용자가 최대 주문: 버거1개, 사이드1개, 음료1개 고정
 
+from kiosk_fnc import print_sub_menu, choice_menu_num
+
 ###########
 # 1. 메뉴와 가격표 #
 ##########
@@ -45,12 +47,7 @@ print("■"* 50)
 
 ################
 # 3. 사용자로부터 메뉴 주문 받기 #
-while True:
-    menu_num = int(input(">> 번호:  "))
-    if menu_num >=1 and menu_num <= 4:
-        break
-    else:
-        print("경고: 1~4 사이의 값만 입력해주세요:  ")
+menu_num = choice_menu_num(4)
 # 돌발퀴즈 : 입력값 1~4인지 판단
 # 맞으면 넘어감
 # 틀리면 다시 error문구 출력 및 다시 입력
@@ -59,25 +56,63 @@ while True:
 # 4. 세부메뉴 선택#
 ##############
 if menu_num == 1:     #세트
-    pass
+    print("■" * 50)
+    print_sub_menu(burger_name, burger_price)
+    menu_num = choice_menu_num(3)
+    menu_save["burger"] = burger_name[menu_num]
+    price_save["burger"] = burger_price[menu_num]
+
+    print_sub_menu(side_name, side_price)
+    menu_num = choice_menu_num(3)
+    menu_save["side"] = side_name[menu_num]
+    price_save["side"] = side_price[menu_num]
+
+    print_sub_menu(drink_name, drink_price)
+    menu_num = choice_menu_num(3)
+    menu_save["drink"] = drink_name[menu_num]
+    price_save["drink"] = drink_price[menu_num]
 elif menu_num == 2:    # 햄버거
     print("■" * 50)
     # 햄버거 메뉴 출력
-    for key, value in burger_name.items():
-        print(f"□ {key}, {value}")
+    # for key, value in burger_name.items():
+    #     print(f"□ {key}, {value}({burger_price[key]}원)")
+    print_sub_menu(burger_name, burger_price)
     # 사용자가 햄버거 메뉴 선택
-    while True:
-        menu_num = int(input(">> 번호:  "))
-        if menu_num >= 1 and menu_num <= 3:
-            break
-        else:
-            print("경고: 1~3 사이의 값만 입력해주세요:  ")
+    menu_num = choice_menu_num(3)
     # 사용자가 선택한 메뉴 저장
     menu_save["burger"] = burger_name[menu_num]
     price_save["burger"] = burger_price[menu_num]
 elif menu_num == 3:   # 사이드
     print("■"* 50)
-elif menu_num == 4:  # 음료
-    pass
-print(menu_save, price_save)
+    print_sub_menu(side_name, side_price)
+    menu_num = choice_menu_num(3)
+    menu_save["side"] =side_name[menu_num]
+    price_save["side"] = side_price[menu_num]
 
+
+elif menu_num == 4:  # 음료
+    print("■"* 50)
+    print_sub_menu(drink_name, drink_price)
+    menu_num = choice_menu_num(3)
+    menu_save["drink"] = drink_name[menu_num]
+    price_save["drink"] = drink_price[menu_num]
+
+# print(menu_save)
+# print(price_save)
+
+########################
+# 5. 주문 메뉴 출력 및 계산 #
+##########################
+# total 주문 금액 계산
+total_price = 0 # 총 주문 금액
+for price in price_save.values():
+    total_price += price
+
+print("■" * 50)
+print("고객님이 주문하신 메뉴는")
+for i, menu in enumerate(menu_save.values()):
+    print(f" {i+1}.{menu}")
+print(f"으로 총 주문금액은 {total_price}원 입니다.")
+print("■" * 50)
+print("■■ 이용해주셔서 감사합니다. 또 방문해주세요")
+print("■" * 50)
