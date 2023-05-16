@@ -36,8 +36,8 @@ result = requests.get(url)
 #                      <------------ response
 # response[200]: success
 # response [400~ 500]: fail
-# print(result)
-# print(result.text)
+#print(result)
+#print(result.text)
 
 
 # requests로 가져온 코드 -> Beautifulsoup이 접근 가능한 코드로 변경
@@ -48,7 +48,7 @@ print(f"뉴스제목: {title}")
 print("="* 100)
 
 
-content = "" # 전체 본문을 담을 변수
+content = ""  # 전체 본문을 담을 변수
 contents = doc.select("section > p")# section 태그 안에 p 태그들
 contents.pop(-1)
 for tag in contents:
